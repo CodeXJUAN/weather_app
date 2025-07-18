@@ -1,16 +1,25 @@
 import { PiSunHorizonDuotone } from "react-icons/pi";
-import { BiSearchAlt } from "react-icons/bi";
 import { getWeatherByCity } from "./lib/fetchWeathers";
 import WeatherCard from "./components/WeatherCard";
 import SearchBar from "./components/SearchBar";
 
 interface Props {
-  searchParams: { city?: string };
+  searchParams: Promise<{ city?: string }>;
 }
 
 export default async function ResponsiveWeatherApp({ searchParams }: Props) {
-  const city = searchParams.city ?? "Madrid";
-  const data = await getWeatherByCity(city);
+  const { city } = await searchParams;
+  const cityName = city ?? "Madrid";
+
+  let data = null;
+  let error = null;
+
+  try {
+    data = await getWeatherByCity(cityName);
+  } catch (err) {
+    error = err instanceof Error ? err.message : "Error fetching weather data";
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen w-full px-4 py-6">
       <header className="flex flex-col items-center justify-center w-full max-w-2xl mb-8 h-[25vh]">
@@ -26,8 +35,22 @@ export default async function ResponsiveWeatherApp({ searchParams }: Props) {
       </header>
 
       <main className="flex flex-col items-center justify-center flex-1 w-full h-[65vh] max-w-4xl px-4">
-        <div className="w-full h-64 sm:h-80 rounded-lg shadow-lg flex items-center justify-center bg-foreground border-cyan-800 border-solid border-2 ">
-          <WeatherCard data={data} />
+        <div className="w-full h-[60vh] sm:h-80 rounded-lg shadow-lg flex items-center justify-center bg-foreground border-cyan-800 border-solid border-2">
+          {error ? (
+            <div className="text-center text-red-500 bg-white p-6 rounded-lg">
+              <p className="text-lg font-bold">Error</p>
+              <p className="text-sm">{error}</p>
+              <p className="text-xs mt-2">
+                Please try searching for another city
+              </p>
+            </div>
+          ) : data ? (
+            <WeatherCard data={data} />
+          ) : (
+            <div className="text-center text-gray-500 bg-white p-6 rounded-lg">
+              <p>Loading weather data...</p>
+            </div>
+          )}
         </div>
       </main>
 
