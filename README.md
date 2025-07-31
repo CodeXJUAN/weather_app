@@ -1,9 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Weather App
+
+A modern, responsive weather application built with Next.js that provides current weather information and 5-day forecasts for cities worldwide.
+
+## Features
+
+- **Current Weather**: Real-time weather data including temperature, humidity, wind speed, and atmospheric pressure
+- **5-Day Forecast**: Extended weather forecast with daily temperature ranges and weather conditions
+- **Interactive Slider**: Swipe between current weather and forecast views on mobile devices
+- **City Search**: Search for weather information in any city globally
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Dark/Light Mode**: Automatic theme switching based on system preferences
+- **Modern UI**: Clean, intuitive interface with smooth animations and transitions
+
+## Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org) with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS with custom CSS variables
+- **Icons**: React Icons, Lucide React
+- **Fonts**: [Onest](https://fonts.google.com/specimen/Onest) from Google Fonts
+- **API**: [OpenWeatherMap API](https://openweathermap.org/api)
+
+## Project Structure
+
+```
+src/app/
+├── components/
+│   ├── ForecastCard.tsx      # 5-day forecast display component
+│   ├── SearchBar.tsx         # City search input component
+│   ├── WeatherCard.tsx       # Current weather display component
+│   ├── WeatherSlider.tsx     # Main slider container component
+│   └── icons/                # Custom SVG icon components
+│       ├── HumidityIcon.tsx
+│       ├── PressureIcon.tsx
+│       └── WindIcon.tsx
+├── lib/
+│   └── fetchWeathers.ts      # API functions for weather data
+├── types/
+│   └── weatherData.ts        # TypeScript type definitions
+├── globals.css               # Global styles and CSS variables
+├── layout.tsx               # Root layout component
+└── page.tsx                 # Main page component
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18.0 or later
+- npm, yarn, pnpm, or bun
+- OpenWeatherMap API key
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd weather-app
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+3. Create a `.env.local` file in the root directory and add your OpenWeatherMap API key:
+```env
+API_KEY_WEATHER=your_api_key_here
+```
+
+4. Run the development server:
 ```bash
 npm run dev
 # or
@@ -14,23 +86,60 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Getting an API Key
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Sign up at [OpenWeatherMap](https://openweathermap.org/api)
+2. Subscribe to the free tier (1,000 calls/day)
+3. Generate an API key from your account dashboard
+4. Add the key to your `.env.local` file
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+- **Search**: Enter a city name in the search bar and press Enter or click the search button
+- **Navigation**: Use the arrow buttons or swipe on mobile to switch between current weather and forecast views
+- **Default City**: The app loads Madrid weather by default if no city is specified
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Integration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The app uses two OpenWeatherMap API endpoints:
 
-## Deploy on Vercel
+- **Current Weather**: `/data/2.5/weather` - Provides current weather conditions
+- **5-Day Forecast**: `/data/2.5/forecast` - Provides weather forecast data
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Both endpoints use:
+- Metric units for temperature (Celsius)
+- 60-second cache for current weather (ISR)
+- 5-minute cache for forecast data (ISR)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Responsive Design
+
+The application is fully responsive with:
+- Mobile-first design approach
+- Touch gestures for navigation on mobile devices
+- Adaptive layouts for different screen sizes
+- Optimized typography and spacing
+
+## Theme Support
+
+Automatic theme switching based on system preferences:
+- **Light Mode**: Light blue background (#b9c7ca) with dark text (#132428)
+- **Dark Mode**: Dark background (#132428) with light text (#b9c7ca)
+
+## Performance Features
+
+- **Incremental Static Regeneration (ISR)**: Cached weather data with automatic revalidation
+- **Parallel Data Fetching**: Weather and forecast data loaded simultaneously
+- **Image Optimization**: Next.js Image component for weather icons
+- **Bundle Optimization**: Automatic code splitting and optimization
+
+## License
+
+Copyright © 2025, All Rights Reserved to Juan Manuel López Arrieta
+
+## Acknowledgments
+
+- Weather data provided by [OpenWeatherMap](https://openweathermap.org)
+- Icons from [React Icons](https://react-icons.github.io/react-icons/)
+- Built with [Next.js](https://nextjs.org) and [Tailwind CSS](https://tailwindcss.com)
